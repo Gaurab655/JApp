@@ -1,5 +1,4 @@
 package V2.JApp.entity;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
