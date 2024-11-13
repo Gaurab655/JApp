@@ -1,25 +1,28 @@
 package V2.JApp.entity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import java.io.Serializable;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "my_users")
-public class UserEntity {
+public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotEmpty
-    @Size(min = 4,message = "please enter valid name")
-    private String name;
-    @NotEmpty
-    @Email
+    @Column(unique = true)
     private String email;
-    @NotEmpty
-    @Size(min =3,max = 8)
-    private String position;
+    private String password;
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -28,28 +31,11 @@ public class UserEntity {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getPosition() {
-        return position;
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-}
+    public void setPassword(String password) {
+        this.password = password;
+    }}
