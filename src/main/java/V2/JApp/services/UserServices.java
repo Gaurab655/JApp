@@ -1,14 +1,12 @@
 package V2.JApp.services;
 
+import V2.JApp.dto.UserDto;
 import V2.JApp.entity.UserEntity;
 import V2.JApp.repository.UserRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,13 +17,14 @@ public class UserServices {
     private UserRepository userRepository;
 
 
-//    public UserEntity saveEntry(UserEntity userEntity) {
-//        return userRepository.save(userEntity);
-//    }
-    public ResponseEntity<UserEntity> saveEntry( UserEntity userEntity){
+    public ResponseEntity<UserDto> saveEntry(UserDto userDto) {
         try {
-            return new ResponseEntity<>(userRepository.save(userEntity), HttpStatus.CREATED);
-        }catch (Exception e){
+            UserEntity userEntity = new UserEntity();
+            userEntity.setEmail(userDto.getEmail());
+            userEntity.setPassword(userDto.getPassword());
+             userRepository.save(userEntity);
+            return new ResponseEntity<>(userDto, HttpStatus.CREATED);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -35,7 +34,21 @@ public class UserServices {
     }
 
 
-    public Optional<UserEntity> getById(Integer id) {
-        return userRepository.findById(id);
+    public ResponseEntity<UserEntity> getById(Integer id) {
+       Optional<UserEntity> userEntity = userRepository.findById(id);
+        if (userEntity.isPresent()){
+            return new ResponseEntity<>(userEntity.get(),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
+    public ResponseEntity<Void> deleteByID(Integer id){
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
