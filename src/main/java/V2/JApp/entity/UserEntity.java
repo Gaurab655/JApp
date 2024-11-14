@@ -7,12 +7,14 @@ import lombok.Setter;
 import java.io.Serializable;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "my_users")
 public class UserEntity implements Serializable {
+    public int getId() {
+        return id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,6 +25,7 @@ public class UserEntity implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
 
     public String getEmail() {
         return email;

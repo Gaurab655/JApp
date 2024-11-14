@@ -21,7 +21,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<UserEntity> createEntity( @RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> createEntity( @RequestBody UserDto userDto){
         return userServices.saveEntry(userDto);
     }
 
@@ -41,22 +41,17 @@ public class UserController {
         return true;
     }
 
-//    @PutMapping("/id/{id}")
-//    public ResponseEntity<UserEntity> updateEntity(@PathVariable Integer id, @RequestBody UserEntity newEntityData) {
-//
-//        Optional<UserEntity> existingEntity = userRepository.findById(id);
-//        if (existingEntity.isPresent()) {
-//            existingEntity.get().setEmail(newEntityData.getEmail());
-//            existingEntity.get().setPassword(newEntityData.getPassword());
-//            UserEntity updatedEntity = userRepository.save(existingEntity.get());
-//            return new ResponseEntity<>(updatedEntity, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
     @PutMapping("/id/{id}")
-    public ResponseEntity<UserEntity> updateEntity(@PathVariable Integer id , @RequestBody UserEntity userEntity){
-       return userServices.updateUsers(id,userEntity);
-    }
+    public ResponseEntity<UserEntity> updateEntity(@PathVariable Integer id, @RequestBody UserEntity newEntityData) {
 
-}
+        Optional<UserEntity> existingEntity = userRepository.findById(id);
+        if (existingEntity.isPresent()) {
+            existingEntity.get().setEmail(newEntityData.getEmail());
+            existingEntity.get().setPassword(newEntityData.getPassword());
+            UserEntity updatedEntity = userRepository.save(existingEntity.get());
+            return new ResponseEntity<>(updatedEntity, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+  }

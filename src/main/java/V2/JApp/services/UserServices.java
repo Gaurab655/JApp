@@ -17,12 +17,13 @@ public class UserServices {
     private UserRepository userRepository;
 
 
-    public ResponseEntity<UserEntity> saveEntry(UserDto userDto) {
+    public ResponseEntity<UserDto> saveEntry(UserDto userDto) {
         try {
             UserEntity userEntity = new UserEntity();
             userEntity.setEmail(userDto.getEmail());
             userEntity.setPassword(userDto.getPassword());
-            return new ResponseEntity<>(userRepository.save(userEntity), HttpStatus.CREATED);
+             userRepository.save(userEntity);
+            return new ResponseEntity<>(userDto, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -46,15 +47,6 @@ public class UserServices {
             userRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-    public ResponseEntity<UserEntity> updateUsers(Integer id,UserEntity userEntity ){
-        Optional<UserEntity> updateEntity = userRepository.findById(id);
-        if (updateEntity.isPresent()){
-            updateEntity.get().setEmail(updateEntity.userEntity.getEmail(id));
-
-        }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
